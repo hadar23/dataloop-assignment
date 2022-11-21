@@ -1,24 +1,21 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 import requests
-
-
-class Item(BaseModel):
-    my_port: str
+import sys
 
 
 app = FastAPI()
 
 firs_url = 'http://127.0.0.1:8000/ping'
 
-first_data = {'my_port': '0'}
 
-
-def first_ping():
-    response = requests.post(firs_url, json=first_data)
+def send_command_to_server(command):
+    data = {'my_port': '0', 'command': f'{command}'}
+    response = requests.post(firs_url, json=data)
     print(response.text)
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    first_ping()
+    command = sys.argv[1]
+    print(command)
+    send_command_to_server(command)
